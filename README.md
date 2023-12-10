@@ -36,14 +36,15 @@ As shown in DataModelEvaluate.ipynb, the single-node video streams outpreformed 
 - Must have snl-server access and netUnicorn access at UCSB
 - Private information stored in Private.env (not included in repository) as follows
 
-NODE_IP =
-SNL_SERVER_PATH =
-NETUNICORN_ENDPOINT =
-NETUNICORN_LOGIN =
-NETUNICORN_PASSWORD =
-PIPELINE_ENDPATH =
-WEBDAV_USERNAME =
+NODE_IP =  
+SNL_SERVER_PATH =  
+NETUNICORN_ENDPOINT =  
+NETUNICORN_LOGIN =  
+NETUNICORN_PASSWORD =  
+PIPELINE_ENDPATH =  
+WEBDAV_USERNAME =  
 WEBDAV_PASSWORD =
+
 
 
 ### Dependencies
