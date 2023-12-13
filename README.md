@@ -6,6 +6,8 @@ Classifying videos based on their streamed network packet transfer. We collected
 Replication of Beauty and the Burst: Remote Identification of Encrypted Video Streams (https://www.usenix.org/system/files/conference/usenixsecurity17/sec17-schuster.pdf)
 and improved data collection process for model generalizability by using multiple nodes from UCSB PINOT infrastructure instead of one single node. 
 
+### Change Branch to view different aggregation interval results
+
 
 ### DataCollection.ipynb
 The DataCollection.ipynb builds a custom netUnicorn Pipeline where you can specify what videos to watch (we used Vimeo for add free content). All our data collection trials are in the dictionaries with labels capture_#. We used capture_4 to represent multi-node collection, and capture_8 to represent single node collecton. Both were 5 vimeo videos, watched for 60 seconds, 50 times per video. 
