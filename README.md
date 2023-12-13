@@ -1,20 +1,24 @@
 # Encrypted-Video-FingerPrinting
-Classifying videos based on their streamed network packet transfer. We collected the data from UCSB network nodes using netUnicorn, preprocessed the data with pandas and wireShark, and modeled the data with Sklearn and PyTorch.
+Classifying videos based on their streamed network packet transfer. We collected the data from UCSB network nodes using netUnicorn, preprocessed the data with Pandas, Scapy, Numpy, and modeled the data with Sklearn and Keras.
 
 ## Description
 
+Replication of Beauty and the Burst: Remote Identification of Encrypted Video Streams (https://www.usenix.org/system/files/conference/usenixsecurity17/sec17-schuster.pdf)
+and improved data collection process for model generalizability by using multiple nodes from UCSB PINOT infrastructure instead of one single node. 
+
+
 ### DataCollection.ipynb
-The DataCollection.ipynb builds a custom netUnicorn Pipeline where you can specify what videos to watch (we used Vimeo for add free content). Additionally, you can customize the capture time, the number of nodes streamed from, the number of streams per node, the endpoint folder, the run number (for multiple runs for same capture_#), and the endpoint save folder where the .pcaps get saved to. For our single-node model, we used Capture_8 which represents 5 vimeo videos, streamed for 60 seconds, on 1 single node. For our multi-node model, we used Capture_4 which represents 5 vimeo videos, streamed for 60 seconds, across 50 random nodes (20 then 30).
+The DataCollection.ipynb builds a custom netUnicorn Pipeline where you can specify what videos to watch (we used Vimeo for add free content). All our data collection trials are in the dictionaries with labels capture_#. We used capture_4 to represent multi-node collection, and capture_8 to represent single node collecton. Both were 5 vimeo videos, watched for 60 seconds, 50 times per video. 
+
 
 ### DataModelEvaluate.ipynb
-The DataModelEvaluate.ipynb file reads all the .pcap files that are created from netUnicorn in the DataCollection file. It then downloads each video .pcap file into a pandas dataframe with the time_interval as rows and 'up_bps', 'down_bps', 'up_pps', 'down_pps', 'up_plen', 'down_plen' as columns. The video dataframes are then all set to the same length, then displayed in graphs. One graph displays each run for the specified video, stacked ontop of each other to view simlilarity. This is done for each streamed video, and a column must be choosen ('down_bps' was what we chose). Then the data is divided for the different models as concat, or list of dfs (explain below). Next, the concat df is run through the RandomForestClassifier. The first classifier run is the overall accuracy of the model, then it is run for each time interval, to see which 5 second time intervals are most usefull. (Range 20% to 94%). We took the highest accuracy time interval dataframe, and ran the trustee visualization report to see how the model was making decisions. Finally, the list of dfs (optionally cropped for most relevant time intervals) is fed into the pyTorch Convolutional Neural Network. 
+The DataModelEvaluate.ipynb file reads all the .pcap files that are created from netUnicorn in the DataCollection file. It then downloads each video .pcap file into a pandas dataframe with the time_interval as rows and 'up_bps', 'down_bps', 'up_pps', 'down_pps', 'up_plen', 'down_plen' as columns. Our graph display each run for the specified video, stacked ontop of each other to view simlilarity. Next, the entire concat df is run through the RandomForestClassifier, then it is run for each time interval, to see which interval has highest accuracy. (Range 20% to 94%). The highest accuracy time interval dataframe is ran on a trustee visualization report to visualize how the model makes decisions. Finally, the list of dfs (optionally cropped for most relevant time intervals) is fed into the Keras Convolutional Neural Network. 
 
 
-### concat: Each video dataframe combined into one dataframe, used for the sklearn 2D RandomForestClassifier
+concat: Each video dataframe combined vertically into one dataframe, used for the sklearn 2D RandomForestClassifier
 
-### dfs: A list of each dataframe, which is the .pcaps processed in memory, used for the 3D pyTorch Convolution Neural Network
+dfs: A list of each dataframe, which is converted to numpy array time series in the Keras Convolutional Neural Network
 
-*** The list of dfs, because of the 3D complexity must be processed in memory, but the concat data can be stored as .csv and once processed, accessed quickly ***
 
 
 ## Results
@@ -24,8 +28,8 @@ As shown in DataModelEvaluate.ipynb, the single-node video streams outpreformed 
 
 |     Collection Type    | RandomForest Accuracy | RandomForest Best Interval | CNN Accuracy |
 | ---------------------- | ----------------------| -------------------------- | ------------ |
-| Single-Node Collection | Row 1 Column 2        | Row 1 Column 3             |              |
-| Multi-Node Collection  | Row 2 Column 2        | Row 2 Column 3             |              |
+| Single-Node Collection |           0.64        |   40s-45s   0.9444         |   0.9444     |
+| Multi-Node Collection  |           0.60        |   40s-45s   0.9091         |   0.9090     |
 
 
 
@@ -49,6 +53,6 @@ WEBDAV_PASSWORD =
 
 ### Dependencies
 
-- netUnicorn, trustee, pandas, sklearn, pyTorch, dotenv
+- netUnicorn, trustee, pandas, sklearn, keras, dotenv
 
 
