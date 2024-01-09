@@ -1,6 +1,10 @@
 # Encrypted-Video-FingerPrinting
 Classifying videos based on their streamed network packet transfer. We collected the data from UCSB network nodes using netUnicorn, preprocessed the data with Pandas, Scapy, Numpy, and modeled the data with Sklearn and Keras.
 
+## Report
+![PDF Cover](Report_Front_SS.png)
+[View Full Document](CS190N_Final_Report.pdf)
+
 ## Description
 
 Replication of Beauty and the Burst: Remote Identification of Encrypted Video Streams (https://www.usenix.org/system/files/conference/usenixsecurity17/sec17-schuster.pdf)
